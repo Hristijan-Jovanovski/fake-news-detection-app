@@ -1,0 +1,4 @@
+package com.fake_news_detection.backend_spring_app.service.impl;
+
+public class PredictionResponseServiceImpl {
+}
