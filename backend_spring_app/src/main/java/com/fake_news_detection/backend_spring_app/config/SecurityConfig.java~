@@ -16,16 +16,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()      // Allow auth endpoints
-                        .requestMatchers("/api/predictions/**").permitAll() // Allow prediction endpoints
-                        .requestMatchers("/api/test/**").permitAll()      // Allow test endpoints (if you added the test controller)
-                        .requestMatchers("/h2-console/**").permitAll()    // Allow H2 console if using H2 database
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/predictions/**").permitAll()
+                        .requestMatchers("/api/test/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(basic -> {})  // Enable HTTP Basic Auth
-                .csrf(csrf -> csrf.disable())  // Disable CSRF for API
+                .httpBasic(basic -> {})
+                .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers
-                        .frameOptions(frameOptions -> frameOptions.disable())); // For H2 console
+                        .frameOptions(frameOptions -> frameOptions.disable()));
 
         return http.build();
     }

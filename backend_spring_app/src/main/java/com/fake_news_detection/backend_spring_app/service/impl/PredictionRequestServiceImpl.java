@@ -33,7 +33,7 @@ public class PredictionRequestServiceImpl implements PredictionRequestService {
         Map<String, String> payload = new HashMap<>();
         payload.put("text", request.getText());
 
-        String flaskUrl = "http://localhost:5000/predict";
+        String flaskUrl = "http://flask-app:5000/predict";
 
         ResponseEntity<Map> responseEntity = restTemplate.postForEntity(flaskUrl, payload, Map.class);
         Map<String, Object> predictionMap = responseEntity.getBody();

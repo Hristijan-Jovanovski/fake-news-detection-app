@@ -1,10 +1,11 @@
 package com.fake_news_detection.backend_spring_app.model;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -20,6 +21,7 @@ public class PredictionResponse {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_id", nullable = false)
     @ToString.Exclude
+    @JsonBackReference("request-response")
     private PredictionRequest request;
 
     public void setRequest(PredictionRequest request) {

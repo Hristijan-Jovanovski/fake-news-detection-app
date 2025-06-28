@@ -1,8 +1,11 @@
 package com.fake_news_detection.backend_spring_app.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PredictionRequest {
@@ -13,19 +16,21 @@ public class PredictionRequest {
     @Column(length = Integer.MAX_VALUE)
     private String text;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     private String username;
 
     @OneToOne(mappedBy = "request", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
+    @JsonManagedReference("request-response")
     private PredictionResponse response;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference("user-requests")
     private User user;
 
+    public void setUser(User user) {
+        this.user = user;
+    }
     public void setResponse(PredictionResponse response) {
         if (response == null) {
             if (this.response != null) {

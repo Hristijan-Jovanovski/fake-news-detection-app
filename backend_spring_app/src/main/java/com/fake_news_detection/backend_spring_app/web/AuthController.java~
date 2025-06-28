@@ -1,4 +1,0 @@
-package com.fake_news_detection.backend_spring_app.web;
-
-public class AuthController {
-}

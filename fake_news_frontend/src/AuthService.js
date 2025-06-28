@@ -1,26 +1,51 @@
 const API_URL = 'http://localhost:8080/api/auth';
 
 const handleResponse = async (response) => {
+    console.log('Response status:', response.status);
+    console.log('Response headers:', response.headers);
+    console.log('Response ok:', response.ok);
+
     if (!response.ok) {
+        let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+
         try {
-            const error = await response.json();
-            throw new Error(error.message || 'Something went wrong');
-        } catch {
-            const errorText = await response.text();
-            throw new Error(errorText || 'Something went wrong');
+            const contentType = response.headers.get('content-type');
+            console.log('Error response content-type:', contentType);
+
+            if (contentType && contentType.includes('application/json')) {
+                const error = await response.json();
+                console.log('Error response JSON:', error);
+                errorMessage = error.message || errorMessage;
+            } else {
+                const errorText = await response.text();
+                console.log('Error response text:', errorText);
+                errorMessage = errorText || errorMessage;
+            }
+        } catch (parseError) {
+            console.error('Error parsing error response:', parseError);
         }
+
+        throw new Error(errorMessage);
     }
 
+    // Handle successful response
     const contentType = response.headers.get('content-type');
+    console.log('Success response content-type:', contentType);
+
     if (contentType && contentType.includes('application/json')) {
-        return response.json();
+        const jsonData = await response.json();
+        console.log('Success response JSON:', jsonData);
+        return jsonData;
     } else {
-        return response.text();
+        const textData = await response.text();
+        console.log('Success response text:', textData);
+        return textData;
     }
 };
 
 export const register = async (username, password) => {
-    const response = await fetch(`${API_URL}/register`, {
+    console.log('Registering user:', username);
+    const response = await fetch(`/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
@@ -29,7 +54,8 @@ export const register = async (username, password) => {
 };
 
 export const login = async (username, password) => {
-    const response = await fetch(`${API_URL}/login`, {
+    console.log('Logging in user:', username);
+    const response = await fetch(`/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })

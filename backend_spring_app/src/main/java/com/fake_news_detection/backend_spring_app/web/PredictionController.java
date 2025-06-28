@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://frontend-app:3000")
 @RestController
 @RequestMapping("/api/predictions")
 public class PredictionController {
@@ -50,7 +50,7 @@ public class PredictionController {
         }
         return ResponseEntity.ok(requests);
     }
-    String flaskUrl = "http://localhost:5000/predict";
+    String flaskUrl = "http://flask-app:5000/predict";
     @PostMapping
     public ResponseEntity<PredictionResponse> createPrediction(
             @RequestBody PredictionRequest request,

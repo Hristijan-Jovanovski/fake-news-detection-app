@@ -28,7 +28,7 @@ function App() {
 
   const fetchHistory = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/predictions/user?userId=${userId}`);
+      const response = await fetch(`/api/predictions/user?userId=${userId}`);
       if (response.ok) {
         const data = await response.json();
         setHistory(data);
@@ -58,8 +58,8 @@ function App() {
     AuthService.register(registerData.username, registerData.password)
         .then(() => {
           alert('Registration successful! Please login.');
-          setRegisterData({ username: '', password: '' }); // Clear register form
-          setIsLoginMode(true); // Switch to login mode
+          setRegisterData({ username: '', password: '' });
+          setIsLoginMode(true);
         })
         .catch(err => alert(err.message));
   };
@@ -76,33 +76,44 @@ function App() {
 
     setLoading(true);
     try {
-      console.log('Sending request with userId:', currentUser.userId); // Debug log
+      console.log('Current user:', currentUser);
+      console.log('Sending request with userId:', currentUser.userId);
 
-      const res = await fetch('http://localhost:8080/api/predictions', {
+      const requestBody = {
+        text: text,
+        username: currentUser.username
+      };
+
+      const requestHeaders = {
+        'Content-Type': 'application/json',
+        'userId': currentUser.userId.toString()
+      };
+
+      console.log('Request body:', requestBody);
+      console.log('Request headers:', requestHeaders);
+      console.log('Request URL:', '/api/predictions');
+
+      const res = await fetch('/api/predictions', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'userId': currentUser.userId.toString() // Ensure it's a string
-        },
-        body: JSON.stringify({
-          text: text,
-          username: currentUser.username
-        })
+        headers: requestHeaders,
+        body: JSON.stringify(requestBody)
       });
 
-      console.log('Response status:', res.status); // Debug log
+      console.log('Response status:', res.status);
+      console.log('Response headers:', [...res.headers.entries()]);
 
       if (!res.ok) {
         const errorText = await res.text();
+        console.error('Error response:', errorText);
         throw new Error(`HTTP ${res.status}: ${errorText}`);
       }
 
       const data = await res.json();
-      console.log('Response data:', data); // Debug log
+      console.log('Response data:', data);
 
       setResult(data);
-      setText(''); // Clear the text area after successful submission
-      await fetchHistory(currentUser.userId); // Refresh history
+      setText('');
+      await fetchHistory(currentUser.userId);
 
     } catch (err) {
       console.error('Prediction error:', err);
