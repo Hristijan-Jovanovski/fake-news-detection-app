@@ -30,6 +30,6 @@ jobs:
         context: ./fake_news_frontend
         file: ./fake_news_frontend/Dockerfile
         push: true
-        tags: chriss04/fake_news_frontend:latest
+        tags: chriss04/fake-news-frontend:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
