@@ -30,6 +30,6 @@ jobs:
         context: ./backend_spring_app
         file: ./backend_spring_app/Dockerfile
         push: true
-        tags: chriss04/backend-spring-app:latest
+        tags: chriss04/fake-news-backend:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
