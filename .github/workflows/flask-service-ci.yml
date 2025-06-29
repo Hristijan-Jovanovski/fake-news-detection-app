@@ -30,6 +30,6 @@ jobs:
         context: ./model_call_flask_app
         file: ./model_call_flask_app/Dockerfile
         push: true
-        tags: chriss04/model-call-flask-app:latest
+        tags: chriss04/fake-news-model:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
