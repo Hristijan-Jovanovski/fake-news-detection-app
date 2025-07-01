@@ -1,0 +1,42 @@
+auth:
+  username: postgres
+  postgresPassword: "RNuCJbRTH0"  
+  database: fakenewsdb
+  postgresqlPostgresPassword: "RNuCJbRTH0"
+  existingSecret: "app-secrets"
+  authenticationMethod: md5
+
+pgpool:
+  authenticationMethod: md5  
+  adminPassword: "adminpass" 
+  livenessProbe:
+    initialDelaySeconds: 60 
+    timeoutSeconds: 10       
+    periodSeconds: 30
+    failureThreshold: 3     
+  readinessProbe:
+    initialDelaySeconds: 30
+    timeoutSeconds: 10      
+    periodSeconds: 10
+    failureThreshold: 3
+  resources:
+    limits:
+      memory: "1Gi"
+    requests:
+      memory: "512Mi"
+
+primary:
+  persistence:
+    enabled: true
+    size: 1Gi
+
+readReplicas:
+  replicaCount: 1
+
+global:
+  postgresql:
+    auth:
+      existingSecret: "app-secrets"
+      secretKeys:
+        adminPasswordKey: "DB_PASSWORD"
+        userPasswordKey: "DB_PASSWORD"
