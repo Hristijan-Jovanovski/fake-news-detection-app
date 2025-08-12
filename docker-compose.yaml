@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   flask-app:
-    image: chriss04/fake-news-model:latest
+    image: chriss04/fake-news-model:v1
     container_name: flask_app
     ports:
       - "5000:5000"
@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
 
   spring-app:
-    image: chriss04/fake-news-backend:latest
+    image: chriss04/fake-news-backend:v2
     container_name: spring_app
     environment:
       - DB_HOST=${DB_HOST}
@@ -45,7 +45,7 @@ services:
     restart: unless-stopped
 
   frontend-app:
-    image: chriss04/fake-news-frontend:latest
+    image: chriss04/fake-news-frontend:v1
     container_name: frontend_app
     ports:
       - "80:80"

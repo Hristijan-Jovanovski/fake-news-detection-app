@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: fake-news
+data:
+  DB_HOST: "news-postgresql-ha-pgpool"
+  DB_PORT: "5432"
+  DB_NAME: "fakenewsdb"
+  ALLOWED_ORIGINS: "http://localhost:3000,http://frontend-app:80"
+  FLASK_APP_URL: "http://flask-app:5000"

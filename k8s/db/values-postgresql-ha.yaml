@@ -1,0 +1,22 @@
+postgresql:
+  existingSecret: postgresql-ha-secret
+  username: postgres
+  database: fakenewsdb
+
+gpool:
+  existingSecret: postgresql-ha-secret
+  adminUsername: admin
+  adminPassword: PgpoolPass123
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+  readinessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+
+persistence:
+  enabled: true
